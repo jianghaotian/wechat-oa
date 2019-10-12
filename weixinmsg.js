@@ -1,10 +1,13 @@
 const formatMsg = require('./fmtwxmsg');
 
 function userMsg(wxmsg, retmsg) {
-    /*
-        检测是否为文本消息，如果是文本消息则先要检测是不是支持的关键词回复。
-    */
-    if (wxmsg.MsgType == 'text') {
+    if (wxmsg.MsgType == 'event') {
+        if (wxmsg.Event == 'subscribe') {
+            retmsg.msg = '欢迎关注';
+            retmsg.msgtype = 'text';
+            return formatMsg(retmsg);
+        }
+    } else if (wxmsg.MsgType == 'text') {
         if (wxmsg.Content == 'who') {
             retmsg.msg = '姓名：姜皓天\n学号：2017011765';
             retmsg.msgtype = 'text';
